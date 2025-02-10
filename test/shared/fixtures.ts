@@ -8,17 +8,17 @@ type UnitLendingFixtureType = {
 };
 
 export async function getSigners(): Promise<Signers> {
-    const [deployer, administrator, customer] = await ethers.getSigners();
+    const [ administrator, client ] = await ethers.getSigners();
 
-    return { deployer, administrator, customer };
+    return { administrator, client };
 }
 
 export async function unitLendingFixture(): Promise<UnitLendingFixtureType> {
-    const { deployer } = await getSigners();
+    const { administrator } = await getSigners();
 
     const storeFactory: ContractFactory = await ethers.getContractFactory(`Store`);
 
-    const store: Store = (await storeFactory.connect(deployer).deploy()) as Store;
+    const store: Store = (await storeFactory.connect(administrator).deploy()) as Store;
 
     await store.waitForDeployment();
 

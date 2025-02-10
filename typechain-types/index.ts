@@ -8,8 +8,6 @@ export type { contracts };
 export * as factories from "./factories";
 export type { Ownable } from "./@openzeppelin/contracts/access/Ownable";
 export { Ownable__factory } from "./factories/@openzeppelin/contracts/access/Ownable__factory";
-export type { Lock } from "./contracts/Lock";
-export { Lock__factory } from "./factories/contracts/Lock__factory";
 export type { Store } from "./contracts/Store";
 export { Store__factory } from "./factories/contracts/Store__factory";
 export type { StoreBase } from "./contracts/StoreBase";

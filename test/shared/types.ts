@@ -7,7 +7,6 @@ export interface Context {
 }
 
 export interface Signers {
-    deployer: SignerWithAddress;
     administrator: SignerWithAddress;
-    customer: SignerWithAddress;
+    client: SignerWithAddress;
 }

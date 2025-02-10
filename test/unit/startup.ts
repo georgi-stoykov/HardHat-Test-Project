@@ -5,12 +5,11 @@ import { administratorCanManageProducts } from "./store/ManageProducts.spec";
 
 describe(`Unit tests`, async () => {
     before(async function () {
-        const { deployer, administrator, customer } = await loadFixture(getSigners);
+        const { administrator, client } = await loadFixture(getSigners);
 
         this.signers = {} as Signers;
-        this.signers.deployer = deployer;
         this.signers.administrator = administrator;
-        this.signers.customer = customer;
+        this.signers.client = client;
     });
 
     describe(`Store`, async () => {

@@ -8,5 +8,5 @@ export interface Context {
 
 export interface Signers {
     administrator: SignerWithAddress;
-    client: SignerWithAddress;
+    buyer: SignerWithAddress;
 }

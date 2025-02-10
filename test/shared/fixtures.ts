@@ -3,17 +3,17 @@ import { ethers } from "hardhat";
 import { Store } from "../../typechain-types";
 import { Signers } from './types';
 
-type UnitLendingFixtureType = {
+type StoreSetupFixtureType= {
     store: Store;
 };
 
 export async function getSigners(): Promise<Signers> {
-    const [ administrator, client ] = await ethers.getSigners();
+    const [ administrator, buyer ] = await ethers.getSigners();
 
-    return { administrator, client };
+    return { administrator, buyer };
 }
 
-export async function unitLendingFixture(): Promise<UnitLendingFixtureType> {
+export async function storeSetupFixture(): Promise<StoreSetupFixtureType> {
     const { administrator } = await getSigners();
 
     const storeFactory: ContractFactory = await ethers.getContractFactory(`Store`);

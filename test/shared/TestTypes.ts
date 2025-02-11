@@ -2,7 +2,7 @@ import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { Store } from "../../typechain-types";
 
 export interface Signers {
-    administrator: SignerWithAddress;
+    admin: SignerWithAddress;
     buyer: SignerWithAddress;
 }
 
@@ -16,7 +16,7 @@ export enum TransactionErrors {
 }
 
 export enum ValidationErrors {
-    MissingProductName = "OwnableUnauthorizedAccount",
+    UnauthorizedAccount = "OwnableUnauthorizedAccount",
 }
 
 export enum ValidationErrorsMessages {

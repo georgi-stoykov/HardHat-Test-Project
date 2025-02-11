@@ -10,7 +10,7 @@ export const productManagementOperationsAsAdmin = (): void => {
         it('[AC.1] Administrator can add new product', async function () {
             const products: StoreBase.ProductStructOutput[] = await this.store.getAllProducts();
             
-            expect(products.length).to.equal(2, "Two products should be added");
+            expect(products.length).to.equal(2, "Products should already exist in store");
             
             expect(products[0].name).to.equal(ProductNames.LIMES);
             expect(products[0].quantity).to.equal(100);
@@ -33,7 +33,6 @@ export const productManagementOperationsAsAdmin = (): void => {
             // Assert new product was not added
             const products: string[] = (await this.store.getAllProducts()).map((p : StoreBase.ProductStructOutput) => p.name);
             expect(products).to.have.same.members([ProductNames.LIMES, ProductNames.ORANGES], "Using addProduct() with existing product should not add new product");
-
          });
 
          it('[AC.2] Administrator can update product quantity via method "updateProductQuantity"', async function () {
@@ -52,23 +51,30 @@ export const productManagementOperationsAsAdmin = (): void => {
             expect(products).to.have.same.members([ProductNames.LIMES, ProductNames.ORANGES], "Using addProduct() with existing product should not add new product");
          });
 
-        it('Administrator cannot add product without name', async function () {
+        it('[AC.1]Administrator cannot add product without name', async function () {
             await expect(this.admin.addProduct("", 100)).to.be.revertedWith(ValidationErrorsMessages.MissingProductName);
         });
 
-        it('Administrator can add product without quantity', async function () {
+        it('[AC.1] Administrator cannot add product with zero quantity', async function () {
+            await expect(this.admin.addProduct("Bananas", 0)).to.be.revertedWith(ValidationErrorsMessages.QuantityNotPositive);
+        });
+
+        it('[AC.1-2]Administrator cannot add new product via method "updateProductQuantity"', async function () {
+            await expect(this.admin.updateProductQuantity(3, 100))
+                .to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);
+        });
+
+        it.skip('[AC.1][ToBeConfirmed] Administrator cannot add product without quantity', async function () {
             await expect(this.admin.addProduct("Bananas"));
             const products: StoreBase.ProductStructOutput[] = await this.store.getAllProducts();
-            console.log(products);
-            expect(products.length).to.equal(2, "Products should be 3 after adding Bananas");
+            expect(products.length).to.equal(3, "Products should be 3 after adding Bananas");
         });
-        // it('Administrator cannot add new product "updateProductQuantity"', async function () {
-        //     const ERROR_OwnableUnauthorizedAccount = 'OwnableUnauthorizedAccount';
-        //     expect(this.admin.updateProductQuantity(1, 31))
-        //         .to.be.revertedWithCustomError(this.store, ERROR_OwnableUnauthorizedAccount);
-        //  });
 
-        // it('Administrator cannot update product quantity to be zero or less via method "addProduct"', async function () { });
+        it('[AC.1] Administrator can update product quantity to be zero', async function () {
+            await this.admin.updateProductQuantity(0, 0);
+            const limesAfterUpdate : StoreBase.ProductStructOutput = await this.store.getProductById(0);
+            expect(limesAfterUpdate.quantity).to.equal(0, "Quantity of Limes should be 0 after update");
+        });
         // it('Administrator cannot update product quantity to be zero or less via method "updateProductQuantity"', async function () { });
         // it('Administrator cannot add product without product name', async function () { });// 
     })

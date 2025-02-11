@@ -3,14 +3,14 @@ import { getSigners, storeSetupFixture } from "../shared/SetupFixtures";
 import { Signers, ProductNames } from "../shared/TestTypes";
 import { productManagementOperationsAsAdmin } from "./store/ProductManagement/ProductManagementAsAdmin";
 import { productManagementOperationsAsBuyer } from './store/ProductManagement/ProductManagementAsBuyer';
-import { productOrderingOperations } from "./store/ProductOrdering";
+import { productOrderingAsBuyer } from "./store/ProductOrdering/ProductOrderingAsBuyer";
 
 describe(`Tests`, async () => {
     before(async function () {
-        const { administrator, buyer } = await loadFixture(getSigners);
+        const { admin, buyer } = await loadFixture(getSigners);
 
         this.signers = {} as Signers;
-        this.signers.administrator = administrator;
+        this.signers.admin = admin;
         this.signers.buyer = buyer;
     });
 
@@ -18,7 +18,7 @@ describe(`Tests`, async () => {
         const { store } = await loadFixture(storeSetupFixture);
         this.store = store;
         
-        this.admin = await this.store.connect(this.signers.administrator);
+        this.admin = await this.store.connect(this.signers.admin);
         this.buyer = await this.store.connect(this.signers.buyer);
 
         await this.admin.addProduct(ProductNames.LIMES, 100);
@@ -27,5 +27,5 @@ describe(`Tests`, async () => {
 
     productManagementOperationsAsAdmin();
     productManagementOperationsAsBuyer();
-    productOrderingOperations();
+    productOrderingAsBuyer();
 });

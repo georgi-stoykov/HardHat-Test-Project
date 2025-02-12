@@ -15,5 +15,9 @@
     "i": "^0.3.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "g": "^2.0.1",
+    "kill-port": "^2.0.1"
   }
 }

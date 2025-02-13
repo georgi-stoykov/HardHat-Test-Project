@@ -11,6 +11,6 @@ jobs:
             - name: Compile contract
               run: npx hardhat compile
             - name: Deploy contract
-              run: npx hardhat ignition deploy ./ignition/modules/Lock.js
+              run: npx hardhat run scripts/deployStore.ts --network localhost
             - name: Run tests
               run: npx hardhat test --network localhost

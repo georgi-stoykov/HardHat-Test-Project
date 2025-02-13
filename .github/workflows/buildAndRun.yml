@@ -1,0 +1,16 @@
+name: Test Project
+on: push
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download repository
+              uses: actions/checkout@v3
+            - name: Install dependencies
+              run: npm ci
+            - name: Compile contract
+              run: npx hardhat compile
+            - name: Deploy contract
+              run: npx hardhat ignition deploy ./ignition/modules/Lock.js
+            - name: Run tests
+              run: npx hardhat test --network localhost

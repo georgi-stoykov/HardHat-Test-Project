@@ -10,6 +10,8 @@ jobs:
               run: npm ci
             - name: Compile contract
               run: npx hardhat compile
+            - name: Start local HardHat node
+              run: npx hardhat node
             - name: Deploy contract
               run: npx hardhat run scripts/deployStore.ts --network localhost
             - name: Run tests

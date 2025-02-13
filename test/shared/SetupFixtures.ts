@@ -1,4 +1,4 @@
-import { ContractFactory, Wallet } from "ethers";
+import { ContractFactory } from "ethers";
 import { ethers, network } from "hardhat";
 import { Store } from "../../typechain-types";
 import { Signers } from './TestTypes';
@@ -8,9 +8,9 @@ type StoreSetupFixtureType= {
 };
 
 export async function getSigners(): Promise<Signers> {
-    const [ admin, buyer ] = await ethers.getSigners();
+    const [ admin, buyer, secondBuyer ] = await ethers.getSigners();
 
-    return { admin, buyer };
+    return { admin, buyer, secondBuyer };
 }
 
 export async function storeSetupFixture(): Promise<StoreSetupFixtureType> {

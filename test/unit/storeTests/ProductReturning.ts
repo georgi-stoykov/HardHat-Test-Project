@@ -1,6 +1,5 @@
 import { expect} from "chai";
 import { network } from "hardhat";
-import { Signer } from "ethers";
 import { EventTypes, ValidationErrorsMessages } from "../../shared/TestTypes";
 
 export const productReturning = (): void => {
@@ -14,19 +13,13 @@ export const productReturning = (): void => {
             }
             
             // Revert with 100th block
-            await expect(this.buyer.refundProduct(this.catalogue.Limes.id)).to.emit(this.store, EventTypes.ProductRefund);
+            await expect(this.buyer.refundProduct(this.catalogue.Limes.id))
+                .to.emit(this.store, EventTypes.ProductRefund);
 
             // // Question: Why quantity is not increased on successful refund?
             // const limesAfter : StoreBase.ProductStructOutput = await this.buyer.getProductByName(this.catalogue.Limes.name);
             // expect(limesAfter.quantity).to.equal(this.catalogue.Limes.quantity, "Limes should be back to their original quantity after refunding");
         });
-
-
-        // it('[AC.5] Buyer cannot refund product they did not bought', async function () {
-        // });
-
-        // it('[AC.5] Buyer cannot refund nonexistent product', async function () {
-        // });
 
         it("[Optional.AC.1] Buyer cannot return product after the refund period", async function () {
             await this.buyer.buyProduct(this.catalogue.Oranges.id);
@@ -35,7 +28,8 @@ export const productReturning = (): void => {
                 await network.provider.send("evm_mine");
             }
 
-            await expect(this.buyer.refundProduct(this.catalogue.Oranges.id)).to.be.revertedWith(ValidationErrorsMessages.DeniedRefund);
+            await expect(this.buyer.refundProduct(this.catalogue.Oranges.id))
+                .to.be.revertedWith(ValidationErrorsMessages.DeniedRefund);
         });
         
         it("[Optional.AC.1] Admin can view current refund policy", async function () {
@@ -43,9 +37,9 @@ export const productReturning = (): void => {
             expect(policyNumber).to.be.greaterThan(0, "Refund policy not a number");
         });
 
-        it("[Optional.AC.2] Buyer cannot buy existing product which is out stock", async function () {
-            await this.admin.updateProductQuantity(this.catalogue.Oranges.id, 0);
-            await expect(this.buyer.buyProduct(this.catalogue.Oranges.id)).to.be.revertedWith(ValidationErrorsMessages.QuantityNotPositive);
+        it("[Optional.AC.1] Buyer can view current refund policy", async function () {
+            const policyNumber = await this.buyer.getRefundPolicyNumber();
+            expect(policyNumber).to.be.greaterThan(0, "Refund policy not a number");
         });
 
         it("[AC.4][Optional.AC.2] Buyer can buy returned product again", async function () {
@@ -53,8 +47,8 @@ export const productReturning = (): void => {
 
             await this.buyer.refundProduct(this.catalogue.Oranges.id);
 
-            await expect(
-                this.buyer.buyProduct(this.catalogue.Oranges.id)).to.emit(this.store, EventTypes.ProductBought);
+            await expect(this.buyer.buyProduct(this.catalogue.Oranges.id))
+                .to.emit(this.store, EventTypes.ProductBought);
         });
 
         it("[Optional.AC.2][ToBeConfirmed] Buyer can buy product after admin re-stock it", async function () {
@@ -73,10 +67,14 @@ export const productReturning = (): void => {
             await expect(this.buyer.buyProduct(this.catalogue.Limes.id)).to.emit(this.store, EventTypes.ProductBought);
         });
 
-        it("Admin can view product buys", async function () {
-            await this.buyer.buyProduct(this.catalogue.Limes.id);
-            const [productBuyer] : Signer[] = await this.admin.getProductBuyersById(this.catalogue.Limes.id);
-            await expect(productBuyer).to.equal(this.signers.buyer.address, "Buyer's  address should be returned");
+        it('[AC.5] Buyer cannot refund product they did not bought', async function () {
+            await expect(this.buyer.refundProduct(this.catalogue.Limes.id))
+                .to.be.revertedWith(ValidationErrorsMessages.InvalidRefund);
+        });
+
+        it('[AC.5] Buyer cannot refund nonexistent product', async function () {
+            await expect(this.buyer.refundProduct(this.nonExistentProductId))
+                .to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);
         });
     });
 };

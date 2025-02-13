@@ -8,12 +8,13 @@ import { productReturning } from './storeTests/ProductReturning';
 
 describe(`Tests`, async () => {
     before(async function () {
-        const { admin, buyer } = await loadFixture(getSigners);
-        this.signers = { admin, buyer };
+        const { admin, buyer, secondBuyer } = await loadFixture(getSigners);
+        this.signers = { admin, buyer, secondBuyer };
         this.catalogue = {
             Limes: { id: 0, name: "Limes", quantity: 100n },
             Oranges: { id: 1, name: "Oranges", quantity: 50n }
         };
+        this.nonExistentProductId = 555;
     });
 
     beforeEach(async function () {
@@ -22,6 +23,7 @@ describe(`Tests`, async () => {
         
         this.admin = await this.store.connect(this.signers.admin);
         this.buyer = await this.store.connect(this.signers.buyer);
+        this.secondBuyer = await this.store.connect(this.signers.secondBuyer);
 
         await this.admin.setRefundPolicyNumber(100);
         await this.admin.addProduct(this.catalogue.Limes.name, this.catalogue.Limes.quantity);

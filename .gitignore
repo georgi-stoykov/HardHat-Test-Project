@@ -1,7 +1,7 @@
 node_modules/
 .vscode/
-# artifacts/
-# ignition/
-# cache/
+artifacts/
+ignition/
+cache/
 # coverage/
-# coverage.json
+coverage.json

@@ -6,15 +6,20 @@ jobs:
         steps:
             - name: Download repository
               uses: actions/checkout@v3
+
             - name: Install dependencies
               run: npm ci
+
             - name: Compile contract
               run: npx hardhat compile
+
             - name: Start local HardHat node in background
               run: |
                 nohup npx hardhat node > node.log 2>&1 &
                 sleep 10
+
             - name: Deploy contract
               run: npx hardhat run scripts/deployStore.ts --network localhost
+
             - name: Run tests
               run: npx hardhat test --network localhost

@@ -10,7 +10,7 @@ export const productOrdering = (): void => {
 
             expect(products.length).to.equal(2, "Products should already exist in store");
             
-            expect(products[0].name).to.equal(this.catalogue.Limes.name);
+            expect(products[1].name).to.equal(this.catalogue.Limes.name);
             expect(products[0].quantity).to.equal(this.catalogue.Limes.quantity);
             expect(products[1].name).to.equal(this.catalogue.Oranges.name);
             expect(products[1].quantity).to.equal(this.catalogue.Oranges.quantity);

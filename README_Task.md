@@ -1,8 +1,5 @@
-## Objective
+# Objective
 Create a test suite in Hardhat for ./contracts/Store.sol
-
-**Prerequisites**:
-- Please ensure you are using **OpenZeppelin Contracts version 5.x or newer**. 
 
 ## The contract abides to the following specification:
 
@@ -12,6 +9,6 @@ Create a test suite in Hardhat for ./contracts/Store.sol
 [AC.4] A client cannot buy the same product more than one time.<br>
 [AC.5] Buyers should be able to return products if they are not satisfied.<br>
 
-[Optional.AC.1] Buyers should not be able to return products after a certain period in blocktime: 100 blocks.
-[Optional.AC.2] The clients should not be able to buy a product more times than the quantity in the store unless a product is returned or added by the administrator (owner)
-[Optional.AC.2] Setup a GitHub repo with CI. The CI should be able to: Compile the contract Deploy the contract on a local hardhat node Execute the suite against a local node and verify that it gets full code coverage
+[Optional.AC.1] Buyers should not be able to return products after a certain period in blocktime: 100 blocks.<br>
+[Optional.AC.2] The clients should not be able to buy a product more times than the quantity in the store unless a product is returned or added by the administrator (owner)<br>
+[Optional.AC.2] Setup a GitHub repo with CI. The CI should be able to: Compile the contract Deploy the contract on a local hardhat node Execute the suite against a local node and verify that it gets full code coverage<br>

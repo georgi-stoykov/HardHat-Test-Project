@@ -1,7 +1,8 @@
-node_modules/
 .vscode/
+node_modules/
 artifacts/
 ignition/
 cache/
-# coverage/
+coverage/
+typechain-types/
 coverage.json

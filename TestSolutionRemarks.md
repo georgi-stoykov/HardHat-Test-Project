@@ -14,14 +14,28 @@ I have added the following `[AC.x]` tags to the specification for easier reviewi
 [Optional.AC.2] Setup a GitHub repo with CI. The CI should be able to: Compile the contract Deploy the contract on a local hardhat node Execute the suite against a local node and verify that it gets full code coverage
 ```
 
-
 ### 2. Queries
 
 1. During testing I was not sure if the refunding should increase the quantity back. I tag the tests where that is important with `[ToBeConfirmed]`<br>
 2.  I am not sure if the refund policy should include the 100th block or it should expire after the 101th.
 
+### 3. Test solution problems
+I couldn't to make the pipeline run `npx hardhat coverage` run against local node because I it seems the coverage plugin does not support it anymore: <br>
 
-### 3. Issue found 
+    Error in plugin solidity-coverage: Error: --network cli flag is not supported for the coverage task. Beginning with v0.8.7, coverage must use the default "hardhat" network.
+
+I tried to make it work with v0.8.7 but didn't manage to. I was getting error for transaction gas limits but my attempts to configure the network in `hardhat.config.ts` didn't succeed
+
+These 2 github actions run the test twice which is bad:
+```
+    - name: Run tests
+        run: npx hardhat test --parallel 
+
+    - name: Run tests and generate code coverage
+        run: npx hardhat test --parallel --network localhost
+```
+
+### 4. Issue found 
 
 I found one issue which I tagged in the title with `[BUG]`. An example of bug report I would create in project management system:
 

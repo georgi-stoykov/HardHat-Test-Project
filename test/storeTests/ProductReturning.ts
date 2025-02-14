@@ -1,6 +1,6 @@
 import { expect} from "chai";
 import { network } from "hardhat";
-import { EventTypes, ValidationErrorsMessages } from "../shared/TestTypes";
+import { EventTypes, ValidationErrorMessages } from "../shared/TestTypes";
 
 export const productReturning = (): void => {
     describe("Product returning operations", async function () {
@@ -29,7 +29,7 @@ export const productReturning = (): void => {
             }
 
             await expect(this.buyer.refundProduct(this.catalogue.Oranges.id))
-                .to.be.revertedWith(ValidationErrorsMessages.DeniedRefund);
+                .to.be.revertedWith(ValidationErrorMessages.DeniedRefund);
         });
         
         it("[Optional.AC.1] Admin can view current refund policy", async function () {
@@ -54,7 +54,9 @@ export const productReturning = (): void => {
         it("[Optional.AC.2][ToBeConfirmed] Buyer can buy product after admin re-stock it", async function () {
             /* Cannot understand requirement:
                "The clients should not be able to buy a product more times than the quantity in the store unless added by the administrator (owner)".
-                The only option is for the product to be of 0 quantity, but since admin cannot add/update product with 0 quantity, the only option is to refund the product and admin to add positive quantity.
+
+                Buyer cannot buy twice either way meaning the product quantity should be 0 when buyer tries to buy it for a first time 
+                or refunding should increase quantity back and there is a bug. 
              */
             await this.admin.updateProductQuantity(this.catalogue.Limes.id, 1);
      
@@ -69,12 +71,12 @@ export const productReturning = (): void => {
 
         it('[AC.5] Buyer cannot refund product they did not bought', async function () {
             await expect(this.buyer.refundProduct(this.catalogue.Limes.id))
-                .to.be.revertedWith(ValidationErrorsMessages.InvalidRefund);
+                .to.be.revertedWith(ValidationErrorMessages.InvalidRefund);
         });
 
         it('[AC.5] Buyer cannot refund nonexistent product', async function () {
             await expect(this.buyer.refundProduct(this.nonExistentProductId))
-                .to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);
+                .to.be.revertedWith(ValidationErrorMessages.ProductDoesNotExist);
         });
     });
 };

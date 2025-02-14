@@ -1,7 +1,7 @@
 import { expect} from "chai";
 import { StoreBase } from "../../typechain-types/contracts/Store";
 import { Signer } from "ethers";
-import { EventTypes, ValidationErrors, ValidationErrorsMessages } from "../shared/TestTypes";
+import { EventTypes, ValidationErrors, ValidationErrorMessages } from "../shared/TestTypes";
 
 export const productOrdering = (): void => {
     describe("Product ordering operations", async function () {
@@ -31,21 +31,21 @@ export const productOrdering = (): void => {
                 "Buying a product should decrease its store quantity by 1");
         });
 
-        it("[AC.3] Buyer cannot buy nonexistent product", async function () {
+        it("[AC.3][BUG] Buyer cannot buy nonexistent product", async function () {
             await expect(this.buyer.buyProduct(this.nonExistentProductId))
-                .to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);;
+                .to.be.revertedWith(ValidationErrorMessages.ProductDoesNotExist);;
         });
 
         it("[AC.4] Buyer cannot buy same product twice", async function () {
             await this.buyer.buyProduct(this.catalogue.Limes.id);
             await expect(this.buyer.buyProduct(this.catalogue.Limes.id))
-                .to.be.revertedWith(ValidationErrorsMessages.CannotBuySameProductTwice);
+                .to.be.revertedWith(ValidationErrorMessages.CannotBuySameProductTwice);
         });
 
         it("[Optional.AC.2] Buyer cannot buy existing product which is out stock", async function () {
             await this.admin.updateProductQuantity(this.catalogue.Oranges.id, 0);
             await expect(this.buyer.buyProduct(this.catalogue.Oranges.id))
-                .to.be.revertedWith(ValidationErrorsMessages.QuantityNotPositive);
+                .to.be.revertedWith(ValidationErrorMessages.QuantityNotPositive);
         });
 
         it("Admin can view product buyers", async function () {
@@ -58,7 +58,7 @@ export const productOrdering = (): void => {
         });
 
         it("Admin cannot view product buyers for nonexistent product", async function () {
-            await expect(this.admin.getProductBuyersById(this.nonExistentProductId)).to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);
+            await expect(this.admin.getProductBuyersById(this.nonExistentProductId)).to.be.revertedWith(ValidationErrorMessages.ProductDoesNotExist);
         });
 
         it("Buyer cannot set refund policy", async function () {

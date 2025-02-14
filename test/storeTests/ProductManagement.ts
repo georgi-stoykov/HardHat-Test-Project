@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { StoreBase } from "../../typechain-types/contracts/Store";
-import { EventTypes, ValidationErrorsMessages } from "../shared/TestTypes";
+import { EventTypes, ValidationErrorMessages } from "../shared/TestTypes";
 import { ValidationErrors } from "../shared/TestTypes";
 
 export const productManagementOperations = (): void => {
@@ -59,17 +59,17 @@ export const productManagementOperations = (): void => {
 
         it("[AC.1] Administrator cannot add product without name", async function () {
             await expect(this.admin.addProduct("", 100))
-                .to.be.revertedWith(ValidationErrorsMessages.MissingProductName);
+                .to.be.revertedWith(ValidationErrorMessages.MissingProductName);
         });
 
         it("[AC.1] Administrator cannot add product with zero quantity", async function () {
             await expect(this.admin.addProduct("Bananas", 0))
-                .to.be.revertedWith(ValidationErrorsMessages.QuantityNotPositive);
+                .to.be.revertedWith(ValidationErrorMessages.QuantityNotPositive);
         });
 
         it("[AC.1][AC.2] Updating nonexistent product's quality does not create new product", async function () {
             await expect(this.admin.updateProductQuantity(3, 100))
-                .to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);
+                .to.be.revertedWith(ValidationErrorMessages.ProductDoesNotExist);
 
             const products = await this.admin.getAllProducts();
             expect(products.length).to.equal(2, "Products should not be added");
@@ -101,17 +101,17 @@ export const productManagementOperations = (): void => {
 
         it("Administrator cannot get nonexistent product by id", async function () {
             await expect(this.admin.getProductById(this.nonExistentProductId))
-                .to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);
+                .to.be.revertedWith(ValidationErrorMessages.ProductDoesNotExist);
         });
 
         it("Administrator cannot get nonexistent product by name", async function () {
             await expect(this.admin.getProductByName("Tomatoes"))
-                .to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);
+                .to.be.revertedWith(ValidationErrorMessages.ProductDoesNotExist);
         });
 
         it("Administrator cannot get product without a name", async function () {
             await expect(this.admin.getProductByName(""))
-                .to.be.revertedWith(ValidationErrorsMessages.MissingProductName);
+                .to.be.revertedWith(ValidationErrorMessages.MissingProductName);
         });
     })
 }

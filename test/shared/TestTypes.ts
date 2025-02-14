@@ -11,7 +11,7 @@ export enum ValidationErrors {
     UnauthorizedAccount = "OwnableUnauthorizedAccount",
 }
 
-export enum ValidationErrorsMessages {
+export enum ValidationErrorMessages {
     MissingProductName = "You have to enter a name!",
     ProductDoesNotExist = "This product does not exist!",
     QuantityNotPositive = "Quantity can't be 0!",

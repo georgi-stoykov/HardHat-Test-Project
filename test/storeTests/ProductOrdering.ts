@@ -1,7 +1,7 @@
 import { expect} from "chai";
 import { StoreBase } from "../../typechain-types/contracts/Store";
 import { Signer } from "ethers";
-import { EventTypes, ValidationErrors, ValidationErrorMessages } from "../shared/TestTypes";
+import { EventTypes, ValidationErrors, ValidationErrorMessages } from "../shared/TestConstants";
 
 export const productOrdering = (): void => {
     describe("Product ordering operations", async function () {

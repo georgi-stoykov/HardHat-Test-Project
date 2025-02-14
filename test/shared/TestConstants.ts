@@ -1,5 +1,4 @@
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
-import { Store } from "../../typechain-types";
 
 export interface Signers {
     admin: SignerWithAddress;

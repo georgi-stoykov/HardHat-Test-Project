@@ -1,19 +1,13 @@
 import { ContractFactory } from "ethers";
 import { ethers, network } from "hardhat";
 import { Store } from "../../typechain-types";
-import { Signers } from './TestTypes';
 
-type StoreSetupFixtureType= {
-    store: Store;
-};
-
-export async function getSigners(): Promise<Signers> {
+export async function getSigners() {
     const [ admin, buyer, secondBuyer ] = await ethers.getSigners();
-
     return { admin, buyer, secondBuyer };
 }
 
-export async function storeSetupFixture(): Promise<StoreSetupFixtureType> {
+export async function storeSetupFixture() {
     const { admin } = await getSigners();
     const storeFactory: ContractFactory = await ethers.getContractFactory("Store");
 
@@ -21,4 +15,4 @@ export async function storeSetupFixture(): Promise<StoreSetupFixtureType> {
     await store.waitForDeployment();
     
     return { store };
-};
+}

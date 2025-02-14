@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { StoreBase } from "../../typechain-types/contracts/Store";
-import { EventTypes, ValidationErrorMessages } from "../shared/TestTypes";
-import { ValidationErrors } from "../shared/TestTypes";
+import { EventTypes, ValidationErrorMessages } from "../shared/TestConstants";
+import { ValidationErrors } from "../shared/TestConstants";
 
 export const productManagementOperations = (): void => {
     describe("Product management operations as admin", async function () {

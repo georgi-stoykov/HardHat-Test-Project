@@ -1,6 +1,6 @@
 import { expect} from "chai";
 import { network } from "hardhat";
-import { EventTypes, ValidationErrorMessages } from "../shared/TestTypes";
+import { EventTypes, ValidationErrorMessages } from "../shared/TestConstants";
 
 export const productReturning = (): void => {
     describe("Product returning operations", async function () {

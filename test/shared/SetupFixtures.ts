@@ -17,7 +17,6 @@ export async function storeSetupFixture(): Promise<StoreSetupFixtureType> {
     const { admin } = await getSigners();
     const storeFactory: ContractFactory = await ethers.getContractFactory("Store");
 
-    // Setup and connect to InMemory contract
     const store: Store = (await storeFactory.connect(admin).deploy()) as Store;
     await store.waitForDeployment();
     

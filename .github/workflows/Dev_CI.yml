@@ -62,16 +62,24 @@ jobs:
           run: npx hardhat run scripts/deployStore.ts --network localhost
 
         - name: Run tests
-          run: npx hardhat test --network localhost
+          run: npx hardhat test --parallel --network localhost
+
+        - name: Generate code coverage
+          run: npx hardhat coverage
 
         - name: Upload test coverage
           uses: actions/upload-artifact@v4
           with:
-            path: coverage
+            path: coverage.json
             
     VerifyCodeCoverage:
         needs: Test
         runs-on: ubuntu-latest
         steps:
-            - name: Deploy
-              run: echo "Verifying code coverage"
+          - name: Download test coverage
+            uses: actions/download-artifact@v4
+            with:
+              path: coverage.json
+
+          - name: Verify full code coverage
+            run: npx istanbul check-coverage ./coverage.json --statements 100 --branches 100 --functions 100 --lines 100

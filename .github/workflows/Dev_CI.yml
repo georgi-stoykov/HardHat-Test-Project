@@ -63,7 +63,7 @@ jobs:
           run: npx hardhat test --parallel --network localhost
 
         - name: Run tests and generate code coverage
-          run: npx hardhat test --parallel --network localhost
+          run: npx hardhat coverage
 
         - name: Verify full code coverage
           run: npx istanbul check-coverage ./coverage.json --statements 100 --branches 100 --functions 100 --lines 100

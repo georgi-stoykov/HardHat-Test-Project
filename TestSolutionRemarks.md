@@ -26,13 +26,13 @@ I couldn't to make the pipeline run `npx hardhat coverage` run against local nod
 
 I tried to make it work with v0.8.7 but didn't manage to. I was getting error for transaction gas limits but my attempts to configure the network in `hardhat.config.ts` didn't succeed
 
-These 2 github actions run the test twice which is bad:
+These 2 github actions run the test twice which is did just to show they can be run against local node but not with analyzing the coverage:
 ```
     - name: Run tests
-        run: npx hardhat test --parallel 
+        run: npx hardhat test --parallel --network localhost
 
     - name: Run tests and generate code coverage
-        run: npx hardhat test --parallel --network localhost
+        run: npx hardhat coverage
 ```
 
 ### 4. Issue found 

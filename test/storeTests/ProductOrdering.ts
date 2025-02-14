@@ -33,7 +33,7 @@ export const productOrdering = (): void => {
 
         it.skip("[AC.3][BUG] Buyer cannot buy nonexistent product", async function () {
             await expect(this.buyer.buyProduct(this.nonExistentProductId))
-                .to.be.revertedWith(ValidationErrorMessages.ProductDoesNotExist);;
+                .to.be.revertedWith(ValidationErrorMessages.ProductDoesNotExist);
         });
 
         it("[AC.4] Buyer cannot buy same product twice", async function () {

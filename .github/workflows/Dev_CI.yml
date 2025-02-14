@@ -58,14 +58,14 @@ jobs:
             nohup npx hardhat node > node.log 2>&1 &
             sleep 10
 
-        # - name: Deploy contract
-        #   run: npx hardhat run scripts/deployStore.ts --network localhost
+        - name: Deploy contract
+          run: npx hardhat run scripts/deployStore.ts --network localhost
 
-        # - name: Run tests
-        #   run: npx hardhat test --parallel --network localhost
+        - name: Run tests
+          run: npx hardhat test --parallel --network localhost
 
         - name: Run tests and generate code coverage
           run: npx hardhat coverage
 
         - name: Verify full code coverage
-          run: npx istanbul check-coverage ./coverage.json --statements 100 --branches 95 --functions 100 --lines 100
+          run: npx istanbul check-coverage ./coverage.json --statements 100 --branches 100 --functions 100 --lines 100

@@ -109,7 +109,7 @@ export const productManagementOperations = (): void => {
                 .to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);
         });
 
-        it("Administrator cannot get product by without name", async function () {
+        it("Administrator cannot get product without a name", async function () {
             await expect(this.admin.getProductByName(""))
                 .to.be.revertedWith(ValidationErrorsMessages.MissingProductName);
         });

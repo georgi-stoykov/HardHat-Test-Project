@@ -31,8 +31,9 @@ export const productOrdering = (): void => {
                 "Buying a product should decrease its store quantity by 1");
         });
 
-        it.skip("[AC.3] Buyer cannot buy nonexistent product", async function () {
-            await expect(this.buyer.buyProduct(this.nonExistentProductId)).to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);;
+        it("[AC.3] Buyer cannot buy nonexistent product", async function () {
+            await expect(this.buyer.buyProduct(this.nonExistentProductId))
+                .to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);;
         });
 
         it("[AC.4] Buyer cannot buy same product twice", async function () {

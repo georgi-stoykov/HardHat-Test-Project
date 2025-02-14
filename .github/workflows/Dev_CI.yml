@@ -70,7 +70,7 @@ jobs:
         - name: Upload test coverage
           uses: actions/upload-artifact@v4
           with:
-            path: coverage.json
+            path: ./coverage.json
             
     VerifyCodeCoverage:
         needs: Test
@@ -79,7 +79,7 @@ jobs:
           - name: Download test coverage
             uses: actions/download-artifact@v4
             with:
-              path: coverage.json
+              path: ./coverage.json
 
           - name: Verify full code coverage
             run: npx istanbul check-coverage ./coverage.json --statements 100 --branches 100 --functions 100 --lines 100

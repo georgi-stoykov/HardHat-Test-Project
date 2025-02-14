@@ -14,21 +14,23 @@ jobs:
         steps:
             - name: Clone repository
               uses: actions/checkout@v4
+
             - name: Cache dependencies
               uses: actions/cache@v4
               with:
                 path: ~/.npm
                 key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+                
             - name: Install dependencies
               run: npm ci
+
             - name: Compile contract
               run: npx hardhat compile
+              
             - name: Upload deploy artifacts
               uses: actions/upload-artifact@v4
               with:
-                path: |
-                  scripts
-                  typechain-types
+                path: typechain-types
 
 
     Test:
@@ -37,25 +39,29 @@ jobs:
       steps:
         - name: Clone repository
           uses: actions/checkout@v4
+
         - name: Cache dependencies
           uses: actions/cache@v4
           with:
             path: ~/.npm
             key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+
         - name: Download deploy contracts
           uses: actions/download-artifact@v4
           with:
-            path: |
-                scripts
-                typechain-types
+            path: typechain-types
+
         - name: Start local HardHat node in background
           run: |
             nohup npx hardhat node > node.log 2>&1 &
             sleep 10
+
         - name: Deploy contract
           run: npx hardhat run scripts/deployStore.ts --network localhost
+
         - name: Run tests
           run: npx hardhat test --network localhost
+
         - name: Upload test coverage
           uses: actions/upload-artifact@v4
           with:

@@ -1,7 +1,7 @@
 import { expect} from "chai";
-import { StoreBase } from "../../../typechain-types/contracts/Store";
+import { StoreBase } from "../../typechain-types/contracts/Store";
 import { Signer } from "ethers";
-import { EventTypes, ValidationErrorsMessages } from "../../shared/TestTypes";
+import { EventTypes, ValidationErrors, ValidationErrorsMessages } from "../shared/TestTypes";
 
 export const productOrdering = (): void => {
     describe("Product ordering operations", async function () {
@@ -31,11 +31,8 @@ export const productOrdering = (): void => {
                 "Buying a product should decrease its store quantity by 1");
         });
 
-        it("[AC.3][ToBeConfirmed] Buyer cannot buy nonexistent product", async function () {
-            // To confirm if should be reverted with "This product does not exist!"
-            await expect(this.buyer.buyProduct(this.nonExistentProductId)).to.be.reverted;
-            // await expect(this.buyer.buyProduct(this.nonExistentProductId))
-            //  .to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);
+        it.skip("[AC.3] Buyer cannot buy nonexistent product", async function () {
+            await expect(this.buyer.buyProduct(this.nonExistentProductId)).to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);;
         });
 
         it("[AC.4] Buyer cannot buy same product twice", async function () {
@@ -57,6 +54,16 @@ export const productOrdering = (): void => {
             const [productBuyer1, productBuyer2] : Signer[] = await this.admin.getProductBuyersById(this.catalogue.Limes.id);
             await expect(productBuyer1).to.equal(this.signers.buyer.address, "Buyer's address should be returned");
             await expect(productBuyer2).to.equal(this.signers.secondBuyer.address, "Buyer's address should be returned");
+        });
+
+        it("Admin cannot view product buyers for nonexistent product", async function () {
+            await expect(this.admin.getProductBuyersById(this.nonExistentProductId)).to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);
+        });
+
+        it("Buyer cannot set refund policy", async function () {
+            await expect(this.buyer.setRefundPolicyNumber(50))
+                .to.be.revertedWithCustomError(this.store, ValidationErrors.UnauthorizedAccount)
+                .withArgs(this.signers.buyer.address);
         });
     });
 };

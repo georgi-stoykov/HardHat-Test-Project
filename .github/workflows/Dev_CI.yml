@@ -64,7 +64,7 @@ jobs:
         - name: Run tests
           run: npx hardhat test --parallel --network localhost
 
-        - name: Generate code coverage
+        - name: Run tests and generate code coverage
           run: npx hardhat coverage
 
         - name: Verify full code coverage

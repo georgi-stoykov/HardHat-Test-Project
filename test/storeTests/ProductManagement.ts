@@ -1,7 +1,7 @@
 import { expect } from "chai";
-import { StoreBase } from "../../../typechain-types/contracts/Store";
-import { EventTypes, ValidationErrorsMessages } from "../../shared/TestTypes";
-import { ValidationErrors } from "../../shared/TestTypes";
+import { StoreBase } from "../../typechain-types/contracts/Store";
+import { EventTypes, ValidationErrorsMessages } from "../shared/TestTypes";
+import { ValidationErrors } from "../shared/TestTypes";
 
 export const productManagementOperations = (): void => {
     describe("Product management operations as admin", async function () {
@@ -97,6 +97,21 @@ export const productManagementOperations = (): void => {
 
             const limesAfterUpdate = await this.admin.getProductById(this.catalogue.Limes.id);
             expect(limesAfterUpdate.quantity).to.equal(this.catalogue.Limes.quantity, "Quantity of Limes should not be updated");
+        });
+
+        it("Administrator cannot get nonexistent product by id", async function () {
+            await expect(this.admin.getProductById(this.nonExistentProductId))
+                .to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);
+        });
+
+        it("Administrator cannot get nonexistent product by name", async function () {
+            await expect(this.admin.getProductByName("Tomatoes"))
+                .to.be.revertedWith(ValidationErrorsMessages.ProductDoesNotExist);
+        });
+
+        it("Administrator cannot get product by without name", async function () {
+            await expect(this.admin.getProductByName(""))
+                .to.be.revertedWith(ValidationErrorsMessages.MissingProductName);
         });
     })
 }

@@ -1,6 +1,6 @@
 import { loadFixture } from '@nomicfoundation/hardhat-network-helpers';
-import { getSigners, storeSetupFixture } from "../shared/SetupFixtures";
-import { Signers } from "../shared/TestTypes";
+import { getSigners, storeSetupFixture } from "./shared/SetupFixtures";
+import { Signers } from "./shared/TestTypes";
 import { productManagementOperations } from './storeTests/ProductManagement';
 import { productOrdering } from './storeTests/ProductOrdering';
 import { productReturning } from './storeTests/ProductReturning';

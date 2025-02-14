@@ -60,7 +60,7 @@ jobs:
           run: npx hardhat run scripts/deployStore.ts --network localhost
 
         - name: Run tests
-          run: npx hardhat test --parallel --network localhost
+          run: nohup npx hardhat test --parallel --network localhost
 
         - name: Run tests and generate code coverage
           run: npx hardhat coverage

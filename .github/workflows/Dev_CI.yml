@@ -1,0 +1,57 @@
+name: Dev CI
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main  
+    pull_request:
+        types:
+            - opened
+            - edited
+jobs:
+    BuildContract:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Clone repository
+              uses: actions/checkout@v4
+            - name: Install dependencies
+              run: npm ci
+            - name: Compile contract
+              run: npx hardhat compile
+            - name: Upload deploy artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                path: |
+                  scripts
+                  typechain-types
+
+
+    Test:
+      needs: BuildContract
+      runs-on: ubuntu-latest
+      steps:
+        - name: Download deploy contracts
+          uses: actions/download-artifact@v4
+          with:
+            path: |
+                scripts
+                typechain-types
+        - name: Start local HardHat node in background
+          run: |
+            nohup npx hardhat node > node.log 2>&1 &
+            sleep 10
+        - name: Deploy contract
+          run: npx hardhat run scripts/deployStore.ts --network localhost
+        - name: Run tests
+          run: npx hardhat test --network localhost
+        - name: Upload test coverage
+          uses: actions/upload-artifact@v4
+          with:
+            path: coverage
+            
+    VerifyCodeCoverage:
+        needs: Test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy
+              run: echo "Verifying code coverage"

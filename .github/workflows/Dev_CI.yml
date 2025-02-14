@@ -54,7 +54,9 @@ jobs:
             path: typechain-types
 
         - name: Start local HardHat node in background
-          run: npx hardhat node > node.log 2>&1
+          run: |
+            nohup npx hardhat node > node.log 2>&1 &
+            sleep 10
 
         - name: Deploy contract
           run: npx hardhat run scripts/deployStore.ts --network localhost

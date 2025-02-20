@@ -1,5 +1,5 @@
 import { ContractFactory } from "ethers";
-import { ethers, network } from "hardhat";
+import { ethers } from "hardhat";
 import { Store } from "../../typechain-types";
 
 export async function getSigners() {

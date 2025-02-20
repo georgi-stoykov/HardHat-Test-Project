@@ -1,11 +1,3 @@
-import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
-
-export interface Signers {
-    admin: SignerWithAddress;
-    buyer: SignerWithAddress;
-    secondBuyer: SignerWithAddress;
-}
-
 export enum ValidationErrors {
     UnauthorizedAccount = "OwnableUnauthorizedAccount",
 }

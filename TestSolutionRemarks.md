@@ -48,7 +48,7 @@ I found one issue which I tagged in the title with `[BUG]`. An example of bug re
 `Environment`: branch main, commit `e0cee601df518e47ec6a52c6d5c1253374937549` <br>
 `Description:`
 ```
-On attempt to buy product using nonexistent product it and exception is thrown.
+On attempt to buy product using nonexistent product id an exception is thrown.
 
 Steps to reproduce:
 1. Deploy the Store contract

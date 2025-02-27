@@ -1,1 +1,1 @@
-Test project
+HardHat Test Automation project
